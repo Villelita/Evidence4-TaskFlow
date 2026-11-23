@@ -1,0 +1,5 @@
+/ 200
+/style.css 200
+/app.mjs 200
+/tasks.mjs 200
+/missing 404

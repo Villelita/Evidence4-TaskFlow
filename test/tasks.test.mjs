@@ -1,0 +1,15 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {addTask,toggleTask,removeTask,filterTasks} from '../docs/tasks.mjs';
+const sample=[{id:1,title:'Study',done:false},{id:2,title:'Read',done:true}];
+test('adds trimmed title without mutation',()=>{const a=[];assert.deepEqual(addTask(a,' Study ',1),[sample[0]]);assert.equal(a.length,0)});
+test('rejects blank title',()=>assert.throws(()=>addTask([],'  ',1)));
+test('rejects non-string title',()=>assert.throws(()=>addTask([],42,1)));
+test('accepts 100 characters',()=>assert.equal(addTask([],'x'.repeat(100),1)[0].title.length,100));
+test('rejects 101 characters',()=>assert.throws(()=>addTask([],'x'.repeat(101),1)));
+test('rejects duplicate ID',()=>assert.throws(()=>addTask(sample,'New',1)));
+test('toggles both ways without mutation',()=>{assert.equal(toggleTask(sample,1)[0].done,true);assert.equal(toggleTask(sample,2)[1].done,false);assert.equal(sample[0].done,false)});
+test('removes matching task',()=>assert.deepEqual(removeTask(sample,1),[sample[1]]));
+test('unknown ID leaves tasks unchanged',()=>assert.deepEqual(removeTask(sample,9),sample));
+test('filters by status',()=>{assert.deepEqual(filterTasks(sample,'active'),[sample[0]]);assert.deepEqual(filterTasks(sample,'done'),[sample[1]]);assert.deepEqual(filterTasks(sample),sample)});
+test('rejects invalid filter',()=>assert.throws(()=>filterTasks(sample,'bad')));
