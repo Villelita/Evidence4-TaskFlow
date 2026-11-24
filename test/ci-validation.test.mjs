@@ -1,6 +1,7 @@
 ﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { filterTasks } from '../docs/tasks.mjs';
 
-test('CI validation demonstration', () => {
-    assert.equal(1, 2);
+test('returns an empty list when no tasks exist', () => {
+    assert.deepEqual(filterTasks([], 'all'), []);
 });
